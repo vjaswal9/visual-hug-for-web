@@ -1,12 +1,322 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Target, Shield, Rocket, BarChart3, Brain, FileCheck, Settings, ListChecks, Users, ClipboardCheck, Mail, Linkedin, ArrowDown } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { Button } from "@/components/ui/button";
+import outcomesBg from "@/assets/outcomes-boardroom.jpg";
+import servicesBg from "@/assets/services-collaboration.jpg";
+import { useState } from "react";
 
-const Index = () => {
+/* ─── Scroll-animated wrapper ─── */
+function AnimatedSection({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const { ref, isVisible } = useScrollAnimation(0.12);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(30px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ─── Data ─── */
+const outcomes = [
+  { icon: Target, title: "Strategic clarity", desc: "A clear AI roadmap tied to business outcomes, not hype." },
+  { icon: Shield, title: "Defensible governance", desc: "Policies and guardrails your board and regulators will trust." },
+  { icon: Rocket, title: "Accelerated delivery", desc: "AI initiatives that ship — not stall in committee." },
+  { icon: BarChart3, title: "Measurable ROI", desc: "Clear metrics linking AI spend to business value." },
+];
+
+const services = [
+  { icon: Brain, title: "AI Strategy", desc: "Align AI initiatives with business goals and board expectations." },
+  { icon: FileCheck, title: "Policy & Governance", desc: "Build frameworks that satisfy regulators and enable innovation." },
+  { icon: Settings, title: "Operating Model Design", desc: "Structure teams and processes to scale AI responsibly." },
+  { icon: ListChecks, title: "Use Case Prioritisation", desc: "Identify and rank high-impact AI opportunities by feasibility." },
+  { icon: Users, title: "Leadership Enablement", desc: "Equip your C-suite with practical AI literacy and confidence." },
+  { icon: ClipboardCheck, title: "Delivery Assurance", desc: "Keep AI programmes on track with hands-on oversight." },
+];
+
+const steps = [
+  { num: "01", title: "Clarify", desc: "We assess your AI maturity, align stakeholders, and define a clear roadmap." },
+  { num: "02", title: "Govern", desc: "We build the policies, guardrails, and governance structures you need." },
+  { num: "03", title: "Deliver", desc: "We embed with your team to turn plans into measurable progress." },
+];
+
+/* ─── Page ─── */
+const Index = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* ── Nav ── */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <span className="text-xl font-bold text-gradient-gold">Kudo Advisory</span>
+          <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
+            <a href="#outcomes" className="hover:text-foreground transition-colors">Outcomes</a>
+            <a href="#services" className="hover:text-foreground transition-colors">Services</a>
+            <a href="#how" className="hover:text-foreground transition-colors">How We Work</a>
+            <a href="#about" className="hover:text-foreground transition-colors">About</a>
+            <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <header className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-background to-background" />
+        <div className="relative z-10 max-w-3xl text-center space-y-6">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+            Turn AI intent into{" "}
+            <span className="text-gradient-gold">forward motion</span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Kudo is a Japanese word (駆動) — it means <em>driving force</em>. We help leadership teams go from AI ambition to governed, measurable progress — without the buzzwords.
+          </p>
+          <div className="flex gap-4 justify-center pt-4">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-base">
+              <a href="#contact">Book a Discovery Call</a>
+            </Button>
+            <Button asChild variant="outline" className="border-border hover:bg-secondary px-8 py-3 text-base">
+              <a href="#services">Explore Services</a>
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* ── Outcomes — split layout ── */}
+      <section id="outcomes" className="relative py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">What You Get</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">Executive-ready outcomes</h2>
+          </AnimatedSection>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <AnimatedSection>
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                <img src={outcomesBg} alt="Leadership team in boardroom with data visualizations" className="w-full h-[420px] object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+              </div>
+            </AnimatedSection>
+
+            {/* Cards */}
+            <div className="grid gap-5">
+              {outcomes.map((o, i) => (
+                <AnimatedSection key={o.title} delay={i * 120}>
+                  <div className="flex gap-5 p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300 group">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <o.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{o.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{o.desc}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services — rows with image banner ── */}
+      <section id="services" className="relative py-24 md:py-32">
+        {/* Background accent */}
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-background to-background" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">What We Do</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">Services</h2>
+          </AnimatedSection>
+
+          {/* First row of 3 */}
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
+            {services.slice(0, 3).map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 100}>
+                <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 h-full group">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          {/* Image banner */}
+          <AnimatedSection>
+            <div className="relative rounded-xl overflow-hidden mb-10 shadow-2xl">
+              <img src={servicesBg} alt="Team collaborating around AI dashboards" className="w-full h-56 md:h-72 object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-background/70" />
+            </div>
+          </AnimatedSection>
+
+          {/* Second row of 3 */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {services.slice(3).map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 100}>
+                <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 h-full group">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How We Work ── */}
+      <section id="how" className="py-24 md:py-32">
+        <div className="max-w-4xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">Our Approach</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">How We Work</h2>
+          </AnimatedSection>
+
+          <div className="space-y-0">
+            {steps.map((s, i) => (
+              <AnimatedSection key={s.num} delay={i * 150}>
+                <div className="flex gap-8 items-start group">
+                  <div className="flex flex-col items-center">
+                    <span className="text-3xl font-bold text-primary">{s.num}</span>
+                    {i < steps.length - 1 && (
+                      <div className="w-px h-20 bg-border mt-3">
+                        <ArrowDown className="w-4 h-4 text-muted-foreground -ml-[7px] mt-16" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="pb-12">
+                    <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{s.desc}</p>
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── About ── */}
+      <section id="about" className="py-24 md:py-32 bg-secondary/20">
+        <div className="max-w-5xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">About Us</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8">Practical AI advisory for enterprise leaders</h2>
+          </AnimatedSection>
+          <AnimatedSection delay={100}>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <p className="text-6xl">駆動</p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Kudo Advisory was founded to bridge the gap between AI ambition and enterprise reality. We work with CIOs, CDOs, and transformation leads to build AI strategies that are governed, measurable, and actually get delivered.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  No buzzwords. No vendor lock-in. Just clear-headed advice that moves the needle.
+                </p>
+              </div>
+              <div className="grid gap-4">
+                {[
+                  { title: "Outcome-led", desc: "Every engagement ties to a measurable business result." },
+                  { title: "Governed", desc: "Responsible AI isn't optional — it's built into our approach." },
+                  { title: "Delivery-first", desc: "We ship outcomes, not slide decks." },
+                ].map((item, i) => (
+                  <div key={item.title} className="p-5 rounded-xl bg-card border border-border">
+                    <h3 className="font-semibold mb-1">{item.title}</h3>
+                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
+      <section id="contact" className="py-24 md:py-32">
+        <div className="max-w-3xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">Get in Touch</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Let's talk about your AI ambitions</h2>
+            <p className="text-muted-foreground mb-10 leading-relaxed">
+              Whether you're just starting your AI journey or need help governing what you've already built, we'd love to hear from you.
+            </p>
+          </AnimatedSection>
+
+          <AnimatedSection delay={100}>
+            <div className="flex gap-6 mb-10">
+              <a href="mailto:vijay@kudoadvisory.com" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                <Mail className="w-5 h-5" /> vijay@kudoadvisory.com
+              </a>
+              <a href="https://www.linkedin.com/in/vijayjaswal" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                <Linkedin className="w-5 h-5" /> LinkedIn
+              </a>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={200}>
+            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label className="block text-sm font-medium mb-2">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Message</label>
+                <textarea
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none"
+                />
+              </div>
+              <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3">
+                Send Message
+              </Button>
+            </form>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
+        <p>© {new Date().getFullYear()} Kudo Advisory. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
