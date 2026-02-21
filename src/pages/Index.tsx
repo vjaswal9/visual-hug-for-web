@@ -3,6 +3,9 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
 import outcomesBg from "@/assets/outcomes-boardroom.jpg";
 import servicesBg from "@/assets/services-collaboration.jpg";
+import heroBg from "@/assets/hero-abstract.jpg";
+import howWeWorkBg from "@/assets/how-we-work.jpg";
+import aboutBg from "@/assets/about-leader.jpg";
 import { useState } from "react";
 
 /* ─── Scroll-animated wrapper ─── */
@@ -76,7 +79,8 @@ const Index = () => {
 
       {/* ── Hero ── */}
       <header className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-background to-background" />
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
         <div className="relative z-10 max-w-3xl text-center space-y-6">
           <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
@@ -186,7 +190,16 @@ const Index = () => {
       </section>
 
       {/* ── How We Work ── */}
-      <section id="how" className="py-24 md:py-32">
+      <section id="how" className="relative py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Image banner */}
+          <AnimatedSection>
+            <div className="relative rounded-xl overflow-hidden mb-16 shadow-2xl">
+              <img src={howWeWorkBg} alt="Team planning and collaborating" className="w-full h-56 md:h-72 object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-background/80" />
+            </div>
+          </AnimatedSection>
+        </div>
         <div className="max-w-4xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">Our Approach</p>
@@ -226,6 +239,10 @@ const Index = () => {
           <AnimatedSection delay={100}>
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
+                <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                  <img src={aboutBg} alt="Advisory leadership" className="w-full h-[340px] object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                </div>
                 <p className="text-6xl">駆動</p>
                 <p className="text-muted-foreground leading-relaxed">
                   Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
