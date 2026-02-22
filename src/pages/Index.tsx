@@ -7,6 +7,7 @@ import heroBg from "@/assets/hero-abstract.jpg";
 import howWeWorkBg from "@/assets/how-we-work.jpg";
 import aboutBg from "@/assets/about-leader.jpg";
 import { useState } from "react";
+import kudoLogo from "@/assets/kudo-logo.png";
 
 /* ─── Scroll-animated wrapper ─── */
 function AnimatedSection({
@@ -66,7 +67,7 @@ const Index = () => {
       {/* ── Nav ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <span className="text-xl font-bold text-gradient-gold">Kudo Advisory</span>
+          <img src={kudoLogo} alt="Kudo Advisory" className="h-8" />
           <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
             <a href="#outcomes" className="hover:text-foreground transition-colors">Outcomes</a>
             <a href="#services" className="hover:text-foreground transition-colors">Services</a>
