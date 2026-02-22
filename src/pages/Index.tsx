@@ -67,7 +67,7 @@ const Index = () => {
       {/* ── Nav ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <img src={kudoLogo} alt="Kudo Advisory" className="h-12" />
+          <img src={kudoLogo} alt="Kudo Advisory" className="h-16" />
           <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
             <a href="#outcomes" className="hover:text-foreground transition-colors">Outcomes</a>
             <a href="#services" className="hover:text-foreground transition-colors">Services</a>
