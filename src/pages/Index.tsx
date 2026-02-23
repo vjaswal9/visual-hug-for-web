@@ -79,7 +79,7 @@ const Index = () => {
       </nav>
 
       {/* ── Hero ── */}
-      <header className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+      <header className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
         <div className="relative z-10 max-w-3xl text-center space-y-6">
@@ -88,10 +88,10 @@ const Index = () => {
             Turn AI intent into{" "}
             <span className="text-gradient-gold">forward motion</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2">
             Kudo is a Japanese word (駆動) — it means <em>driving force</em>. We help leadership teams go from AI ambition to governed, measurable progress — without the buzzwords.
           </p>
-          <div className="flex gap-4 justify-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
             <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-base">
               <a href="#contact">Book a Discovery Call</a>
             </Button>
