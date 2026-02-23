@@ -1,13 +1,29 @@
-import { Target, Shield, Rocket, BarChart3, Brain, FileCheck, Settings, ListChecks, Users, ClipboardCheck, Mail, Linkedin, ArrowDown, Menu } from "lucide-react";
+// src/pages/Index.tsx
+import {
+  Target,
+  Shield,
+  Rocket,
+  BarChart3,
+  Brain,
+  FileCheck,
+  Settings,
+  ListChecks,
+  Users,
+  ClipboardCheck,
+  Mail,
+  Linkedin,
+  ArrowDown,
+  Menu,
+  X,
+} from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import outcomesBg from "@/assets/outcomes-boardroom.jpg";
 import servicesBg from "@/assets/services-collaboration.jpg";
 import heroBg from "@/assets/hero-abstract.jpg";
 import howWeWorkBg from "@/assets/how-we-work.jpg";
 import aboutBg from "@/assets/about-leader.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import kudoLogo from "@/assets/kudo-logo.png";
 
 /* ─── Scroll-animated wrapper ─── */
@@ -62,6 +78,7 @@ const steps = [
 /* ─── Page ─── */
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { href: "#outcomes", label: "Outcomes" },
@@ -70,6 +87,26 @@ const Index = () => {
     { href: "#about", label: "About" },
     { href: "#contact", label: "Contact" },
   ];
+
+  // ESC to close + prevent background scroll while overlay is open
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -89,49 +126,102 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Mobile nav (hamburger) */}
+          {/* Mobile hamburger */}
           <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full" aria-label="Open menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-
-              <SheetContent side="right" className="w-[320px] sm:w-[360px]">
-                <div className="flex items-center gap-3 pr-10">
-                  <img src={kudoLogo} alt="Kudo Advisory" className="h-10 w-auto" />
-                </div>
-
-                <div className="mt-8 flex flex-col gap-2">
-                  <SheetClose asChild>
-                    <a
-                      href="#contact"
-                      className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                    >
-                      Book a Discovery Call
-                    </a>
-                  </SheetClose>
-
-                  <div className="mt-3 h-px bg-border" />
-
-                  {navItems.map((item) => (
-                    <SheetClose key={item.href} asChild>
-                      <a
-                        href={item.href}
-                        className="flex items-center justify-between rounded-md px-3 py-3 text-sm text-foreground hover:bg-secondary"
-                      >
-                        {item.label}
-                        <span className="text-muted-foreground">→</span>
-                      </a>
-                    </SheetClose>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </nav>
+
+      {/* ── Full-screen mobile overlay menu (no right-side drawer) ── */}
+      <div
+        className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-200 ${
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        {/* Backdrop */}
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={closeMobileMenu}
+          className="absolute inset-0 bg-background/70 backdrop-blur-xl"
+        />
+
+        {/* Panel content (full-screen, clean) */}
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          className={`relative h-full w-full px-6 pt-6 pb-10 transition-transform duration-200 ${
+            mobileMenuOpen ? "translate-y-0" : "-translate-y-2"
+          }`}
+        >
+          <div className="max-w-md mx-auto h-full flex flex-col">
+            {/* Top bar */}
+            <div className="flex items-center justify-between">
+              <img src={kudoLogo} alt="Kudo Advisory" className="h-11 w-auto" />
+              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Close menu" onClick={closeMobileMenu}>
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            {/* Primary CTA */}
+            <div className="mt-8">
+              <a
+                href="#contact"
+                onClick={closeMobileMenu}
+                className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Book a Discovery Call
+              </a>
+            </div>
+
+            {/* Nav links */}
+            <div className="mt-7 space-y-2">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMobileMenu}
+                  className="flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
+                >
+                  <span className="font-medium">{item.label}</span>
+                  <span className="text-muted-foreground">→</span>
+                </a>
+              ))}
+            </div>
+
+            {/* Footer actions */}
+            <div className="mt-auto pt-10 space-y-3">
+              <a
+                href="mailto:vijay@kudoadvisory.com"
+                className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+              >
+                <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
+              </a>
+              <a
+                href="https://www.linkedin.com/in/vijayjaswal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+              >
+                <Linkedin className="w-4 h-4" /> LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ── Hero ── */}
       <header className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20">
@@ -140,11 +230,11 @@ const Index = () => {
         <div className="relative z-10 max-w-3xl text-center space-y-6">
           <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold leading-tight">
-            Turn AI intent into{" "}
-            <span className="text-gradient-gold">forward motion</span>
+            Turn AI intent into <span className="text-gradient-gold">forward motion</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2">
-            Kudo is a Japanese word (駆動) — it means <em>driving force</em>. We help leadership teams go from AI ambition to governed, measurable progress — without the buzzwords.
+            Kudo is a Japanese word (駆動) — it means <em>driving force</em>. We help leadership teams go from AI ambition to governed,
+            measurable progress — without the buzzwords.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
             <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-base">
@@ -168,7 +258,11 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection>
               <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                <img src={outcomesBg} alt="Leadership team in boardroom with data visualizations" className="w-full h-[420px] object-cover" />
+                <img
+                  src={outcomesBg}
+                  alt="Leadership team in boardroom with data visualizations"
+                  className="w-full h-[420px] object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
               </div>
             </AnimatedSection>
@@ -297,11 +391,10 @@ const Index = () => {
                   Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  Kudo Advisory was founded to bridge the gap between AI ambition and enterprise reality. We work with CIOs, CDOs, and transformation leads to build AI strategies that are governed, measurable, and actually get delivered.
+                  Kudo Advisory was founded to bridge the gap between AI ambition and enterprise reality. We work with CIOs, CDOs, and
+                  transformation leads to build AI strategies that are governed, measurable, and actually get delivered.
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  No buzzwords. No vendor lock-in. Just clear-headed advice that moves the needle.
-                </p>
+                <p className="text-muted-foreground leading-relaxed">No buzzwords. No vendor lock-in. Just clear-headed advice that moves the needle.</p>
               </div>
               <div className="grid gap-4">
                 {[
@@ -332,11 +425,16 @@ const Index = () => {
           </AnimatedSection>
 
           <AnimatedSection delay={100}>
-            <div className="flex gap-6 mb-10">
+            <div className="flex gap-6 mb-10 flex-wrap">
               <a href="mailto:vijay@kudoadvisory.com" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
                 <Mail className="w-5 h-5" /> vijay@kudoadvisory.com
               </a>
-              <a href="https://www.linkedin.com/in/vijayjaswal" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+              <a
+                href="https://www.linkedin.com/in/vijayjaswal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+              >
                 <Linkedin className="w-5 h-5" /> LinkedIn
               </a>
             </div>
