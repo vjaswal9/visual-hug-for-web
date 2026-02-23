@@ -1,6 +1,7 @@
-import { Target, Shield, Rocket, BarChart3, Brain, FileCheck, Settings, ListChecks, Users, ClipboardCheck, Mail, Linkedin, ArrowDown } from "lucide-react";
+import { Target, Shield, Rocket, BarChart3, Brain, FileCheck, Settings, ListChecks, Users, ClipboardCheck, Mail, Linkedin, ArrowDown, Menu } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import outcomesBg from "@/assets/outcomes-boardroom.jpg";
 import servicesBg from "@/assets/services-collaboration.jpg";
 import heroBg from "@/assets/hero-abstract.jpg";
@@ -62,18 +63,72 @@ const steps = [
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
+  const navItems = [
+    { href: "#outcomes", label: "Outcomes" },
+    { href: "#services", label: "Services" },
+    { href: "#how", label: "How We Work" },
+    { href: "#about", label: "About" },
+    { href: "#contact", label: "Contact" },
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* ── Nav ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <img src={kudoLogo} alt="Kudo Advisory" className="h-16" />
-          <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
-            <a href="#outcomes" className="hover:text-foreground transition-colors">Outcomes</a>
-            <a href="#services" className="hover:text-foreground transition-colors">Services</a>
-            <a href="#how" className="hover:text-foreground transition-colors">How We Work</a>
-            <a href="#about" className="hover:text-foreground transition-colors">About</a>
-            <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
+          <a href="#" className="flex items-center gap-3 min-w-0" aria-label="Kudo Advisory home">
+            <img src={kudoLogo} alt="Kudo Advisory" className="h-12 sm:h-16 w-auto" />
+          </a>
+
+          {/* Desktop / tablet nav */}
+          <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className="hover:text-foreground transition-colors">
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile nav (hamburger) */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full" aria-label="Open menu">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+
+              <SheetContent side="right" className="w-[320px] sm:w-[360px]">
+                <div className="flex items-center gap-3 pr-10">
+                  <img src={kudoLogo} alt="Kudo Advisory" className="h-10 w-auto" />
+                </div>
+
+                <div className="mt-8 flex flex-col gap-2">
+                  <SheetClose asChild>
+                    <a
+                      href="#contact"
+                      className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                    >
+                      Book a Discovery Call
+                    </a>
+                  </SheetClose>
+
+                  <div className="mt-3 h-px bg-border" />
+
+                  {navItems.map((item) => (
+                    <SheetClose key={item.href} asChild>
+                      <a
+                        href={item.href}
+                        className="flex items-center justify-between rounded-md px-3 py-3 text-sm text-foreground hover:bg-secondary"
+                      >
+                        {item.label}
+                        <span className="text-muted-foreground">→</span>
+                      </a>
+                    </SheetClose>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
@@ -111,7 +166,6 @@ const Index = () => {
           </AnimatedSection>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image */}
             <AnimatedSection>
               <div className="relative rounded-xl overflow-hidden shadow-2xl">
                 <img src={outcomesBg} alt="Leadership team in boardroom with data visualizations" className="w-full h-[420px] object-cover" />
@@ -119,7 +173,6 @@ const Index = () => {
               </div>
             </AnimatedSection>
 
-            {/* Cards */}
             <div className="grid gap-5">
               {outcomes.map((o, i) => (
                 <AnimatedSection key={o.title} delay={i * 120}>
@@ -141,7 +194,6 @@ const Index = () => {
 
       {/* ── Services — rows with image banner ── */}
       <section id="services" className="relative py-24 md:py-32">
-        {/* Background accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-background to-background" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -150,7 +202,6 @@ const Index = () => {
             <h2 className="text-3xl md:text-5xl font-bold mb-16">Services</h2>
           </AnimatedSection>
 
-          {/* First row of 3 */}
           <div className="grid md:grid-cols-3 gap-6 mb-10">
             {services.slice(0, 3).map((s, i) => (
               <AnimatedSection key={s.title} delay={i * 100}>
@@ -165,7 +216,6 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Image banner */}
           <AnimatedSection>
             <div className="relative rounded-xl overflow-hidden mb-10 shadow-2xl">
               <img src={servicesBg} alt="Team collaborating around AI dashboards" className="w-full h-56 md:h-72 object-cover" />
@@ -173,7 +223,6 @@ const Index = () => {
             </div>
           </AnimatedSection>
 
-          {/* Second row of 3 */}
           <div className="grid md:grid-cols-3 gap-6">
             {services.slice(3).map((s, i) => (
               <AnimatedSection key={s.title} delay={i * 100}>
@@ -193,7 +242,6 @@ const Index = () => {
       {/* ── How We Work ── */}
       <section id="how" className="relative py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Image banner */}
           <AnimatedSection>
             <div className="relative rounded-xl overflow-hidden mb-16 shadow-2xl">
               <img src={howWeWorkBg} alt="Team planning and collaborating" className="w-full h-56 md:h-72 object-cover" />
@@ -260,7 +308,7 @@ const Index = () => {
                   { title: "Outcome-led", desc: "Every engagement ties to a measurable business result." },
                   { title: "Governed", desc: "Responsible AI isn't optional — it's built into our approach." },
                   { title: "Delivery-first", desc: "We ship outcomes, not slide decks." },
-                ].map((item, i) => (
+                ].map((item) => (
                   <div key={item.title} className="p-5 rounded-xl bg-card border border-border">
                     <h3 className="font-semibold mb-1">{item.title}</h3>
                     <p className="text-muted-foreground text-sm">{item.desc}</p>
