@@ -80,8 +80,8 @@ const Index = () => {
 
       {/* ── Hero ── */}
       <header className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
         <div className="relative z-10 max-w-3xl text-center space-y-6">
           <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
