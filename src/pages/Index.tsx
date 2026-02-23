@@ -244,7 +244,7 @@ const Index = () => {
                   <img src={aboutBg} alt="Advisory leadership" className="w-full h-[340px] object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
                 </div>
-                <p className="text-6xl">駆動</p>
+                <p className="text-3xl">駆動</p>
                 <p className="text-muted-foreground leading-relaxed">
                   Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
                 </p>
