@@ -84,7 +84,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
         <div className="relative z-10 max-w-3xl text-center space-y-6">
           <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold leading-tight">
             Turn AI intent into{" "}
             <span className="text-gradient-gold">forward motion</span>
           </h1>
