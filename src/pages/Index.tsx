@@ -75,7 +75,6 @@ const steps = [
   { num: "03", title: "Deliver", desc: "We embed with your team to turn plans into measurable progress." },
 ];
 
-/* ─── Page ─── */
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -110,6 +109,53 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Local motion tuning (kept in this file only) */}
+      <style>{`
+        .kudo-overlay {
+          transition: opacity 220ms ease;
+        }
+        .kudo-panel {
+          will-change: transform, opacity;
+          transform: translateY(-10px) scale(.985);
+          opacity: 0;
+          transition:
+            transform 360ms cubic-bezier(.16, 1, .3, 1),
+            opacity 220ms ease;
+        }
+        .kudo-overlay.is-open .kudo-panel {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+
+        .kudo-item {
+          will-change: transform, opacity;
+          transform: translateY(10px);
+          opacity: 0;
+          transition:
+            transform 360ms cubic-bezier(.16, 1, .3, 1),
+            opacity 220ms ease;
+        }
+        .kudo-overlay.is-open .kudo-item {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .kudo-backdrop {
+          transition: opacity 260ms ease;
+          opacity: 0;
+        }
+        .kudo-overlay.is-open .kudo-backdrop {
+          opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .kudo-overlay, .kudo-panel, .kudo-item, .kudo-backdrop {
+            transition: none !important;
+            transform: none !important;
+          }
+        }
+      `}</style>
+
       {/* ── Nav ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
@@ -143,10 +189,10 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* ── Full-screen mobile overlay menu (no right-side drawer) ── */}
+      {/* ── Full-screen mobile overlay menu (nicer animation + stagger) ── */}
       <div
-        className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-200 ${
-          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`kudo-overlay fixed inset-0 z-[60] md:hidden ${
+          mobileMenuOpen ? "is-open opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden={!mobileMenuOpen}
       >
@@ -155,19 +201,17 @@ const Index = () => {
           type="button"
           aria-label="Close menu"
           onClick={closeMobileMenu}
-          className="absolute inset-0 bg-background/70 backdrop-blur-xl"
+          className="kudo-backdrop absolute inset-0 bg-background/70 backdrop-blur-xl"
         />
 
-        {/* Panel content (full-screen, clean) */}
+        {/* Panel content */}
         <div
           id="mobile-menu"
           role="dialog"
           aria-modal="true"
-          className={`relative h-full w-full px-6 pt-6 pb-10 transition-transform duration-200 ${
-            mobileMenuOpen ? "translate-y-0" : "-translate-y-2"
-          }`}
+          className="relative h-full w-full px-6 pt-6 pb-10"
         >
-          <div className="max-w-md mx-auto h-full flex flex-col">
+          <div className="kudo-panel max-w-md mx-auto h-full flex flex-col">
             {/* Top bar */}
             <div className="flex items-center justify-between">
               <img src={kudoLogo} alt="Kudo Advisory" className="h-11 w-auto" />
@@ -177,7 +221,7 @@ const Index = () => {
             </div>
 
             {/* Primary CTA */}
-            <div className="mt-8">
+            <div className="mt-8 kudo-item" style={{ transitionDelay: mobileMenuOpen ? "60ms" : "0ms" }}>
               <a
                 href="#contact"
                 onClick={closeMobileMenu}
@@ -189,12 +233,13 @@ const Index = () => {
 
             {/* Nav links */}
             <div className="mt-7 space-y-2">
-              {navItems.map((item) => (
+              {navItems.map((item, idx) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className="flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
+                  className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
+                  style={{ transitionDelay: mobileMenuOpen ? `${120 + idx * 55}ms` : "0ms" }}
                 >
                   <span className="font-medium">{item.label}</span>
                   <span className="text-muted-foreground">→</span>
@@ -206,7 +251,8 @@ const Index = () => {
             <div className="mt-auto pt-10 space-y-3">
               <a
                 href="mailto:vijay@kudoadvisory.com"
-                className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                style={{ transitionDelay: mobileMenuOpen ? "420ms" : "0ms" }}
               >
                 <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
               </a>
@@ -214,7 +260,8 @@ const Index = () => {
                 href="https://www.linkedin.com/in/vijayjaswal"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                style={{ transitionDelay: mobileMenuOpen ? "475ms" : "0ms" }}
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
