@@ -38,93 +38,17 @@ function AnimatedSection({
 }) {
   const { ref, isVisible } = useScrollAnimation(0.12);
   return (
-   {/* ── Full-screen mobile overlay menu (spring + stagger) ── */}
-<div
-  className={`kudo-overlay fixed inset-0 z-[60] md:hidden ${
-    mobileMenuOpen ? "is-open opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-  }`}
-  aria-hidden={!mobileMenuOpen}
->
-  {/* Backdrop */}
-  <button
-    type="button"
-    aria-label="Close menu"
-    onClick={closeMobileMenu}
-    className="kudo-backdrop absolute inset-0 bg-background/70 backdrop-blur-xl"
-  />
-
-  {/* Panel content */}
-  <div id="mobile-menu" role="dialog" aria-modal="true" className="relative h-full w-full">
-    <div className="kudo-panel h-full">
-      {/* Match the header container width + padding */}
-      <div className="max-w-7xl mx-auto h-full px-6 pb-10 flex flex-col pt-[env(safe-area-inset-top)]">
-        {/* Top bar aligned exactly like your header */}
-        <div className="flex items-center justify-between py-4">
-          <img src={kudoLogo} alt="Kudo Advisory" className="h-12 w-auto" />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            aria-label="Close menu"
-            onClick={closeMobileMenu}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Keep menu content a tidy width, but LEFT-aligned to the header/logo */}
-        <div className="max-w-md">
-          {/* Primary CTA */}
-          <div className="mt-6 kudo-item" style={{ animationDelay: mobileMenuOpen ? "90ms" : "0ms" }}>
-            <a
-              href="#contact"
-              onClick={closeMobileMenu}
-              className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              Book a Discovery Call
-            </a>
-          </div>
-
-          {/* Nav links */}
-          <div className="mt-7 space-y-2">
-            {navItems.map((item, idx) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={closeMobileMenu}
-                className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
-                style={{ animationDelay: mobileMenuOpen ? `${160 + idx * 60}ms` : "0ms" }}
-              >
-                <span className="font-medium">{item.label}</span>
-                <span className="text-muted-foreground">→</span>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Footer actions (also aligned left to the same column) */}
-        <div className="mt-auto pt-10 max-w-md space-y-3">
-          <a
-            href="mailto:vijay@kudoadvisory.com"
-            className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-            style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
-          >
-            <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
-          </a>
-          <a
-            href="https://www.linkedin.com/in/vijayjaswal"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-            style={{ animationDelay: mobileMenuOpen ? "580ms" : "0ms" }}
-          >
-            <Linkedin className="w-4 h-4" /> LinkedIn
-          </a>
-        </div>
-      </div>
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(30px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
     </div>
-  </div>
-</div>
   );
 }
 
@@ -274,7 +198,7 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* ── Full-screen mobile overlay menu (spring + stagger) ── */}
+      {/* ── Full-screen mobile overlay menu (aligned to header) ── */}
       <div
         className={`kudo-overlay fixed inset-0 z-[60] md:hidden ${
           mobileMenuOpen ? "is-open opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -290,61 +214,73 @@ const Index = () => {
         />
 
         {/* Panel content */}
-        <div id="mobile-menu" role="dialog" aria-modal="true" className="relative h-full w-full px-6 pt-6 pb-10">
-          <div className="kudo-panel max-w-md mx-auto h-full flex flex-col">
-            {/* Top bar */}
-            <div className="flex items-center justify-between">
-              <img src={kudoLogo} alt="Kudo Advisory" className="h-11 w-auto" />
-              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Close menu" onClick={closeMobileMenu}>
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-
-            {/* Primary CTA */}
-            <div className="mt-8 kudo-item" style={{ animationDelay: mobileMenuOpen ? "90ms" : "0ms" }}>
-              <a
-                href="#contact"
-                onClick={closeMobileMenu}
-                className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Book a Discovery Call
-              </a>
-            </div>
-
-            {/* Nav links */}
-            <div className="mt-7 space-y-2">
-              {navItems.map((item, idx) => (
-                <a
-                  key={item.href}
-                  href={item.href}
+        <div id="mobile-menu" role="dialog" aria-modal="true" className="relative h-full w-full">
+          <div className="kudo-panel h-full">
+            {/* Match the header container width + padding */}
+            <div className="max-w-7xl mx-auto h-full px-6 pb-10 flex flex-col pt-[env(safe-area-inset-top)]">
+              {/* Top bar aligned exactly like your header */}
+              <div className="flex items-center justify-between py-4">
+                <img src={kudoLogo} alt="Kudo Advisory" className="h-12 w-auto" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                  aria-label="Close menu"
                   onClick={closeMobileMenu}
-                  className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
-                  style={{ animationDelay: mobileMenuOpen ? `${160 + idx * 60}ms` : "0ms" }}
                 >
-                  <span className="font-medium">{item.label}</span>
-                  <span className="text-muted-foreground">→</span>
-                </a>
-              ))}
-            </div>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
 
-            {/* Footer actions */}
-            <div className="mt-auto pt-10 space-y-3">
-              <a
-                href="mailto:vijay@kudoadvisory.com"
-                className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-                style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
-              >
-                <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
-              </a>
-              <a
-                href="https://www.linkedin.com/in/vijayjaswal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-                style={{ animationDelay: mobileMenuOpen ? "580ms" : "0ms" }}
-              >
-                <Linkedin className="w-4 h-4" /> LinkedIn
-              </a>
+              {/* Keep menu content tidy width, but LEFT-aligned to the header/logo */}
+              <div className="max-w-md">
+                {/* Primary CTA */}
+                <div className="mt-6 kudo-item" style={{ animationDelay: mobileMenuOpen ? "90ms" : "0ms" }}>
+                  <a
+                    href="#contact"
+                    onClick={closeMobileMenu}
+                    className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Book a Discovery Call
+                  </a>
+                </div>
+
+                {/* Nav links */}
+                <div className="mt-7 space-y-2">
+                  {navItems.map((item, idx) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
+                      style={{ animationDelay: mobileMenuOpen ? `${160 + idx * 60}ms` : "0ms" }}
+                    >
+                      <span className="font-medium">{item.label}</span>
+                      <span className="text-muted-foreground">→</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer actions (aligned to same left column) */}
+              <div className="mt-auto pt-10 max-w-md space-y-3">
+                <a
+                  href="mailto:vijay@kudoadvisory.com"
+                  className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                  style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
+                >
+                  <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/vijayjaswal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                  style={{ animationDelay: mobileMenuOpen ? "580ms" : "0ms" }}
+                >
+                  <Linkedin className="w-4 h-4" /> LinkedIn
+                </a>
+              </div>
             </div>
           </div>
         </div>
