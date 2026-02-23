@@ -109,35 +109,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Local motion tuning (kept in this file only) */}
+      {/* Springy overlay motion tuning (kept local to this file) */}
       <style>{`
         .kudo-overlay {
           transition: opacity 220ms ease;
-        }
-        .kudo-panel {
-          will-change: transform, opacity;
-          transform: translateY(-10px) scale(.985);
-          opacity: 0;
-          transition:
-            transform 360ms cubic-bezier(.16, 1, .3, 1),
-            opacity 220ms ease;
-        }
-        .kudo-overlay.is-open .kudo-panel {
-          transform: translateY(0) scale(1);
-          opacity: 1;
-        }
-
-        .kudo-item {
-          will-change: transform, opacity;
-          transform: translateY(10px);
-          opacity: 0;
-          transition:
-            transform 360ms cubic-bezier(.16, 1, .3, 1),
-            opacity 220ms ease;
-        }
-        .kudo-overlay.is-open .kudo-item {
-          transform: translateY(0);
-          opacity: 1;
         }
 
         .kudo-backdrop {
@@ -148,9 +123,43 @@ const Index = () => {
           opacity: 1;
         }
 
+        .kudo-panel {
+          will-change: transform, opacity;
+          transform: translateY(-10px) scale(.985);
+          opacity: 0;
+          transition: transform 220ms ease, opacity 160ms ease;
+        }
+        .kudo-overlay.is-open .kudo-panel {
+          animation: kudoSpringIn 520ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .kudo-item {
+          will-change: transform, opacity;
+          transform: translateY(12px);
+          opacity: 0;
+          transition: transform 220ms ease, opacity 160ms ease;
+        }
+        .kudo-overlay.is-open .kudo-item {
+          animation: kudoItemSpring 520ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        @keyframes kudoSpringIn {
+          0%   { transform: translateY(-12px) scale(.985); opacity: 0; }
+          62%  { transform: translateY(10px) scale(1.015); opacity: 1; } /* overshoot */
+          82%  { transform: translateY(-3px) scale(.998); }
+          100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes kudoItemSpring {
+          0%   { transform: translateY(14px); opacity: 0; }
+          70%  { transform: translateY(-3px); opacity: 1; } /* tiny overshoot */
+          100% { transform: translateY(0); opacity: 1; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .kudo-overlay, .kudo-panel, .kudo-item, .kudo-backdrop {
             transition: none !important;
+            animation: none !important;
             transform: none !important;
           }
         }
@@ -189,7 +198,7 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* ── Full-screen mobile overlay menu (nicer animation + stagger) ── */}
+      {/* ── Full-screen mobile overlay menu (spring + stagger) ── */}
       <div
         className={`kudo-overlay fixed inset-0 z-[60] md:hidden ${
           mobileMenuOpen ? "is-open opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -205,12 +214,7 @@ const Index = () => {
         />
 
         {/* Panel content */}
-        <div
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          className="relative h-full w-full px-6 pt-6 pb-10"
-        >
+        <div id="mobile-menu" role="dialog" aria-modal="true" className="relative h-full w-full px-6 pt-6 pb-10">
           <div className="kudo-panel max-w-md mx-auto h-full flex flex-col">
             {/* Top bar */}
             <div className="flex items-center justify-between">
@@ -221,7 +225,7 @@ const Index = () => {
             </div>
 
             {/* Primary CTA */}
-            <div className="mt-8 kudo-item" style={{ transitionDelay: mobileMenuOpen ? "60ms" : "0ms" }}>
+            <div className="mt-8 kudo-item" style={{ animationDelay: mobileMenuOpen ? "90ms" : "0ms" }}>
               <a
                 href="#contact"
                 onClick={closeMobileMenu}
@@ -239,7 +243,7 @@ const Index = () => {
                   href={item.href}
                   onClick={closeMobileMenu}
                   className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
-                  style={{ transitionDelay: mobileMenuOpen ? `${120 + idx * 55}ms` : "0ms" }}
+                  style={{ animationDelay: mobileMenuOpen ? `${160 + idx * 60}ms` : "0ms" }}
                 >
                   <span className="font-medium">{item.label}</span>
                   <span className="text-muted-foreground">→</span>
@@ -252,7 +256,7 @@ const Index = () => {
               <a
                 href="mailto:vijay@kudoadvisory.com"
                 className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-                style={{ transitionDelay: mobileMenuOpen ? "420ms" : "0ms" }}
+                style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
               >
                 <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
               </a>
@@ -261,7 +265,7 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
-                style={{ transitionDelay: mobileMenuOpen ? "475ms" : "0ms" }}
+                style={{ animationDelay: mobileMenuOpen ? "580ms" : "0ms" }}
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
               </a>
