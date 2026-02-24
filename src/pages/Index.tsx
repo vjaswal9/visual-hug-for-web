@@ -77,6 +77,8 @@ const steps = [
 
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSending, setIsSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<null | "success" | "error">(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -106,6 +108,36 @@ const Index = () => {
   }, [mobileMenuOpen]);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgwarpw";
+
+const handleContactSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSending(true);
+  setFormStatus(null);
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        source: "kudoadvisory.com",
+      }),
+    });
+
+    if (!res.ok) throw new Error("Formspree request failed");
+
+    setFormStatus("success");
+    setFormData({ name: "", email: "", message: "" });
+  } catch (err) {
+    setFormStatus("error");
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -504,7 +536,7 @@ const Index = () => {
           </AnimatedSection>
 
           <AnimatedSection delay={200}>
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleContactSubmit}>                
               <div>
                 <label className="block text-sm font-medium mb-2">Name</label>
                 <input
@@ -532,9 +564,24 @@ const Index = () => {
                   className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none"
                 />
               </div>
-              <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3">
-                Send Message
-              </Button>
+            
+              <Button
+                type="submit"
+                disabled={isSending}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 disabled:opacity-60"
+              >
+                {isSending ? "Sending..." : "Send Message"}
+            </Button>
+
+            {formStatus === "success" && (
+  <p className="text-sm text-primary mt-2">Thanks — your message has been sent.</p>
+)}
+{formStatus === "error" && (
+  <p className="text-sm text-destructive mt-2">
+    Sorry — something went wrong. Please email <a className="underline" href="mailto:vijay@kudoadvisory.com">vijay@kudoadvisory.com</a>.
+  </p>
+)}
+            
             </form>
           </AnimatedSection>
         </div>
