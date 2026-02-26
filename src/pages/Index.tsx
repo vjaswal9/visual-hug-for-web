@@ -297,11 +297,11 @@ const handleContactSubmit = async (e: React.FormEvent) => {
               {/* Footer actions (aligned to same left column) */}
               <div className="mt-auto pt-10 max-w-md space-y-3">
                 <a
-                  href="mailto:vijay@kudoadvisory.com"
+                  href="mailto:info@kudoadvisory.com"
                   className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
                   style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
                 >
-                  <Mail className="w-4 h-4" /> vijay@kudoadvisory.com
+                  <Mail className="w-4 h-4" /> info@kudoadvisory.com
                 </a>
                 <a
                   href="https://www.linkedin.com/in/vijayjaswal"
@@ -521,8 +521,8 @@ const handleContactSubmit = async (e: React.FormEvent) => {
 
           <AnimatedSection delay={100}>
             <div className="flex gap-6 mb-10 flex-wrap">
-              <a href="mailto:vijay@kudoadvisory.com" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
-                <Mail className="w-5 h-5" /> vijay@kudoadvisory.com
+              <a href="mailto:info@kudoadvisory.com" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                <Mail className="w-5 h-5" /> info@kudoadvisory.com
               </a>
               <a
                 href="https://www.linkedin.com/in/vijayjaswal"
@@ -578,7 +578,7 @@ const handleContactSubmit = async (e: React.FormEvent) => {
 )}
 {formStatus === "error" && (
   <p className="text-sm text-destructive mt-2">
-    Sorry — something went wrong. Please email <a className="underline" href="mailto:vijay@kudoadvisory.com">vijay@kudoadvisory.com</a>.
+    Sorry — something went wrong. Please email <a className="underline" href="mailto:info@kudoadvisory.com">info@kudoadvisory.com</a>.
   </p>
 )}
             
