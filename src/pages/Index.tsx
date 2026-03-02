@@ -1,170 +1,599 @@
+// src/pages/Index.tsx
+import {
+  Target,
+  Shield,
+  Rocket,
+  BarChart3,
+  Brain,
+  FileCheck,
+  Settings,
+  ListChecks,
+  Users,
+  ClipboardCheck,
+  Mail,
+  Linkedin,
+  ArrowDown,
+  Menu,
+  X,
+} from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import aboutLeader from "@/assets/about-leader.jpg";
-import vijayImage from "@/assets/vijay-presenting.jpg";
+import outcomesBg from "@/assets/outcomes-boardroom.jpg";
+import servicesBg from "@/assets/services-collaboration.jpg";
+import heroBg from "@/assets/hero-abstract.jpg";
+import howWeWorkBg from "@/assets/how-we-work.jpg";
+import founderBg from "@/assets/vijay-presenting.jpg";
+import { useEffect, useState } from "react";
+import kudoLogo from "@/assets/kudo-logo.png";
 
-export default function Index() {
+/* ─── Scroll-animated wrapper ─── */
+function AnimatedSection({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const { ref, isVisible } = useScrollAnimation(0.12);
   return (
-    <div className="flex flex-col">
-
-      {/* HERO SECTION */}
-      <section className="min-h-screen flex items-center justify-center px-6 text-center">
-        <div className="max-w-4xl">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Turn AI intent into forward motion.
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8">
-            AI Advisory, AI Consultancy & Enterprise AI Strategy in Dubai and the Middle East.
-          </p>
-          <Button size="lg" asChild>
-            <a href="#contact">Book a Call</a>
-          </Button>
-        </div>
-      </section>
-
-      {/* FOUNDER SPOTLIGHT SECTION */}
-      <section id="about" className="py-24 px-6 bg-muted/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-14 items-center">
-
-            {/* LEFT - FOUNDER CARD */}
-            <div className="rounded-3xl border border-foreground/10 bg-background shadow-2xl overflow-hidden">
-              <div className="p-8">
-
-                <div className="flex flex-col sm:flex-row gap-6 items-start">
-                  <div className="w-full sm:w-[180px] shrink-0">
-                    <img
-                      src={vijayImage}
-                      alt="Vijay Jaswal presenting on AI strategy"
-                      className="w-full h-[220px] sm:h-[180px] object-cover rounded-2xl shadow-lg"
-                      loading="lazy"
-                    />
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                      Founder
-                    </p>
-                    <h3 className="text-2xl md:text-3xl font-semibold">
-                      Vijay Jaswal
-                    </h3>
-                    <p className="text-sm md:text-base text-muted-foreground mt-3 leading-relaxed">
-                      Kudo Advisory helps organisations move from AI ambition to measurable outcomes —
-                      through pragmatic strategy, governance and disciplined execution.
-                    </p>
-
-                    <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                      <Button asChild>
-                        <a href="#contact">Book a call</a>
-                      </Button>
-
-                      <Button variant="outline" asChild>
-                        <a
-                          href="https://www.linkedin.com/in/vijayjaswal"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          View LinkedIn
-                        </a>
-                      </Button>
-                    </div>
-
-                    <div className="mt-5 text-xs text-muted-foreground">
-                      Based in Dubai • Serving UAE & Middle East
-                    </div>
-                  </div>
-                </div>
-
-                {/* VALUE HIGHLIGHTS */}
-                <div className="mt-10 grid sm:grid-cols-3 gap-4">
-                  <div className="rounded-2xl border border-foreground/10 p-4">
-                    <div className="text-sm font-medium">Strategy</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Outcome-led AI roadmaps
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl border border-foreground/10 p-4">
-                    <div className="text-sm font-medium">Governance</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Risk controls & guardrails
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl border border-foreground/10 p-4">
-                    <div className="text-sm font-medium">Delivery</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Execution discipline that scales
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* RIGHT - SUPPORTING BRAND IMAGE */}
-            <div>
-              <div className="rounded-3xl overflow-hidden shadow-2xl border border-foreground/10">
-                <img
-                  src={aboutLeader}
-                  alt="Enterprise AI advisory leadership"
-                  className="w-full h-[320px] md:h-[420px] object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="mt-8">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  About Kudo Advisory
-                </h2>
-                <p className="text-muted-foreground mt-4 leading-relaxed">
-                  Kudo Advisory works with organisations unsure where to start with AI
-                  or struggling to extract real value from it. We provide end-to-end advisory
-                  across strategy, policy, value identification and solution delivery.
-                </p>
-                <p className="text-muted-foreground mt-4 leading-relaxed">
-                  Kudo is a Japanese word (駆動) — the driving force that turns intent
-                  into forward motion. We exist to make AI move.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className="py-24 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-12">What We Deliver</h2>
-
-          <div className="space-y-6 text-lg text-muted-foreground">
-            <p>• AI Strategy Advisory</p>
-            <p>• AI Governance & Policy Design</p>
-            <p>• Enterprise AI Operating Model Design</p>
-            <p>• AI Use Case Prioritisation</p>
-            <p>• AI Programme Delivery Assurance</p>
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT CTA */}
-      <section id="contact" className="py-24 px-6 bg-muted/30 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to make AI move?
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Let’s define your AI strategy, governance and execution roadmap.
-          </p>
-
-          <Button size="lg" asChild>
-            <a href="mailto:info@kudoadvisory.com">
-              Email info@kudoadvisory.com
-            </a>
-          </Button>
-        </div>
-      </section>
-
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(30px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
     </div>
   );
 }
+
+/* ─── Data ─── */
+const outcomes = [
+  { icon: Target, title: "Strategic clarity", desc: "A clear AI roadmap tied to business outcomes, not hype." },
+  { icon: Shield, title: "Defensible governance", desc: "Policies and guardrails your board and regulators will trust." },
+  { icon: Rocket, title: "Accelerated delivery", desc: "AI initiatives that ship — not stall in committee." },
+  { icon: BarChart3, title: "Measurable ROI", desc: "Clear metrics linking AI spend to business value." },
+];
+
+const services = [
+  { icon: Brain, title: "AI Strategy", desc: "Align AI initiatives with business goals and board expectations." },
+  { icon: FileCheck, title: "Policy & Governance", desc: "Build frameworks that satisfy regulators and enable innovation." },
+  { icon: Settings, title: "Operating Model Design", desc: "Structure teams and processes to scale AI responsibly." },
+  { icon: ListChecks, title: "Use Case Prioritisation", desc: "Identify and rank high-impact AI opportunities by feasibility." },
+  { icon: Users, title: "Leadership Enablement", desc: "Equip your C-suite with practical AI literacy and confidence." },
+  { icon: ClipboardCheck, title: "Delivery Assurance", desc: "Keep AI programmes on track with hands-on oversight." },
+];
+
+const steps = [
+  { num: "01", title: "Clarify", desc: "We assess your AI maturity, align stakeholders, and define a clear roadmap." },
+  { num: "02", title: "Govern", desc: "We build the policies, guardrails, and governance structures you need." },
+  { num: "03", title: "Deliver", desc: "We embed with your team to turn plans into measurable progress." },
+];
+
+const Index = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSending, setIsSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<null | "success" | "error">(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { href: "#outcomes", label: "Outcomes" },
+    { href: "#services", label: "Services" },
+    { href: "#how", label: "How We Work" },
+    { href: "#about", label: "About" },
+    { href: "#contact", label: "Contact" },
+  ];
+
+  // ESC to close + prevent background scroll while overlay is open
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgwarpw";
+
+const handleContactSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSending(true);
+  setFormStatus(null);
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        source: "kudoadvisory.com",
+      }),
+    });
+
+    if (!res.ok) throw new Error("Formspree request failed");
+
+    setFormStatus("success");
+    setFormData({ name: "", email: "", message: "" });
+  } catch (err) {
+    setFormStatus("error");
+  } finally {
+    setIsSending(false);
+  }
+};
+
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Springy overlay motion tuning (kept local to this file) */}
+      <style>{`
+        .kudo-overlay {
+          transition: opacity 220ms ease;
+        }
+
+        .kudo-backdrop {
+          transition: opacity 260ms ease;
+          opacity: 0;
+        }
+        .kudo-overlay.is-open .kudo-backdrop {
+          opacity: 1;
+        }
+
+        .kudo-panel {
+          will-change: transform, opacity;
+          transform: translateY(-10px) scale(.985);
+          opacity: 0;
+          transition: transform 220ms ease, opacity 160ms ease;
+        }
+        .kudo-overlay.is-open .kudo-panel {
+          animation: kudoSpringIn 520ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .kudo-item {
+          will-change: transform, opacity;
+          transform: translateY(12px);
+          opacity: 0;
+          transition: transform 220ms ease, opacity 160ms ease;
+        }
+        .kudo-overlay.is-open .kudo-item {
+          animation: kudoItemSpring 520ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        @keyframes kudoSpringIn {
+          0%   { transform: translateY(-12px) scale(.985); opacity: 0; }
+          62%  { transform: translateY(10px) scale(1.015); opacity: 1; } /* overshoot */
+          82%  { transform: translateY(-3px) scale(.998); }
+          100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes kudoItemSpring {
+          0%   { transform: translateY(14px); opacity: 0; }
+          70%  { transform: translateY(-3px); opacity: 1; } /* tiny overshoot */
+          100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .kudo-overlay, .kudo-panel, .kudo-item, .kudo-backdrop {
+            transition: none !important;
+            animation: none !important;
+            transform: none !important;
+          }
+        }
+      `}</style>
+
+      {/* ── Nav ── */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <a href="#" className="flex items-center gap-3 min-w-0" aria-label="Kudo Advisory home">
+            <img src={kudoLogo} alt="Kudo Advisory" className="h-12 sm:h-16 w-auto" />
+          </a>
+
+          {/* Desktop / tablet nav */}
+          <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className="hover:text-foreground transition-colors">
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile hamburger */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Full-screen mobile overlay menu (aligned to header) ── */}
+      <div
+        className={`kudo-overlay fixed inset-0 z-[60] md:hidden ${
+          mobileMenuOpen ? "is-open opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        {/* Backdrop */}
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={closeMobileMenu}
+          className="kudo-backdrop absolute inset-0 bg-background/70 backdrop-blur-xl"
+        />
+
+        {/* Panel content */}
+        <div id="mobile-menu" role="dialog" aria-modal="true" className="relative h-full w-full">
+          <div className="kudo-panel h-full">
+            {/* Match the header container width + padding */}
+            <div className="max-w-7xl mx-auto h-full px-6 pb-10 flex flex-col pt-[env(safe-area-inset-top)]">
+              {/* Top bar aligned exactly like your header */}
+              <div className="flex items-center justify-between py-4">
+                <img src={kudoLogo} alt="Kudo Advisory" className="h-12 w-auto" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                  aria-label="Close menu"
+                  onClick={closeMobileMenu}
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+
+              {/* Keep menu content tidy width, but LEFT-aligned to the header/logo */}
+              <div className="max-w-md">
+                {/* Primary CTA */}
+                <div className="mt-6 kudo-item" style={{ animationDelay: mobileMenuOpen ? "90ms" : "0ms" }}>
+                  <a
+                    href="#contact"
+                    onClick={closeMobileMenu}
+                    className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Book a Discovery Call
+                  </a>
+                </div>
+
+                {/* Nav links */}
+                <div className="mt-7 space-y-2">
+                  {navItems.map((item, idx) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      className="kudo-item flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-4 text-base hover:bg-secondary transition-colors"
+                      style={{ animationDelay: mobileMenuOpen ? `${160 + idx * 60}ms` : "0ms" }}
+                    >
+                      <span className="font-medium">{item.label}</span>
+                      <span className="text-muted-foreground">→</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer actions (aligned to same left column) */}
+              <div className="mt-auto pt-10 max-w-md space-y-3">
+                <a
+                  href="mailto:info@kudoadvisory.com"
+                  className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                  style={{ animationDelay: mobileMenuOpen ? "520ms" : "0ms" }}
+                >
+                  <Mail className="w-4 h-4" /> info@kudoadvisory.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/vijayjaswal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="kudo-item flex items-center justify-center gap-2 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
+                  style={{ animationDelay: mobileMenuOpen ? "580ms" : "0ms" }}
+                >
+                  <Linkedin className="w-4 h-4" /> LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Hero ── */}
+      <header className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20">
+        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background" />
+        <div className="relative z-10 max-w-3xl text-center space-y-6">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium">AI Advisory for Leaders</p>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold leading-tight">
+            Turn AI intent into <span className="text-gradient-gold">forward motion</span>
+          </h1>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2">
+            Kudo is a Japanese word (駆動) — it means <em>driving force</em>. We help leadership teams go from AI ambition to governed,
+            measurable progress — without the buzzwords.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-2">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-base">
+              <a href="#contact">Book a Discovery Call</a>
+            </Button>
+            <Button asChild variant="outline" className="border-border hover:bg-secondary px-8 py-3 text-base">
+              <a href="#services">Explore Services</a>
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* ── Outcomes — split layout ── */}
+      <section id="outcomes" className="relative py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">What You Get</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">Executive-ready outcomes</h2>
+          </AnimatedSection>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <AnimatedSection>
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                <img
+                  src={outcomesBg}
+                  alt="Leadership team in boardroom with data visualizations"
+                  className="w-full h-[420px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+              </div>
+            </AnimatedSection>
+
+            <div className="grid gap-5">
+              {outcomes.map((o, i) => (
+                <AnimatedSection key={o.title} delay={i * 120}>
+                  <div className="flex gap-5 p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300 group">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <o.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{o.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{o.desc}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services — rows with image banner ── */}
+      <section id="services" className="relative py-24 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-background to-background" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">What We Do</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">Services</h2>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
+            {services.slice(0, 3).map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 100}>
+                <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 h-full group">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <AnimatedSection>
+            <div className="relative rounded-xl overflow-hidden mb-10 shadow-2xl">
+              <img src={servicesBg} alt="Team collaborating around AI dashboards" className="w-full h-56 md:h-72 object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-background/70" />
+            </div>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {services.slice(3).map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 100}>
+                <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 h-full group">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How We Work ── */}
+      <section id="how" className="relative py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection>
+            <div className="relative rounded-xl overflow-hidden mb-16 shadow-2xl">
+              <img src={howWeWorkBg} alt="Team planning and collaborating" className="w-full h-56 md:h-72 object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-background/80" />
+            </div>
+          </AnimatedSection>
+        </div>
+        <div className="max-w-4xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">Our Approach</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-16">How We Work</h2>
+          </AnimatedSection>
+
+          <div className="space-y-0">
+            {steps.map((s, i) => (
+              <AnimatedSection key={s.num} delay={i * 150}>
+                <div className="flex gap-8 items-start group">
+                  <div className="flex flex-col items-center">
+                    <span className="text-3xl font-bold text-primary">{s.num}</span>
+                    {i < steps.length - 1 && (
+                      <div className="w-px h-20 bg-border mt-3">
+                        <ArrowDown className="w-4 h-4 text-muted-foreground -ml-[7px] mt-16" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="pb-12">
+                    <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{s.desc}</p>
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── About ── */}
+      <section id="about" className="py-24 md:py-32 bg-secondary/20">
+        <div className="max-w-5xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">About Us</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8">Practical AI advisory for enterprise leaders</h2>
+          </AnimatedSection>
+          <AnimatedSection delay={100}>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                  <img src={founderBg} alt="Vijay Jaswal presenting" className="w-full h-[360px] object-cover object-[50%_30%]" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                </div>
+                <p className="text-sm text-muted-foreground mt-3">Vijay Jaswal — Founder</p>
+                <p className="text-3xl">駆動</p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Kudo Advisory was founded to bridge the gap between AI ambition and enterprise reality. We work with CIOs, CDOs, and
+                  transformation leads to build AI strategies that are governed, measurable, and actually get delivered.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">No buzzwords. No vendor lock-in. Just clear-headed advice that moves the needle.</p>
+              </div>
+              <div className="grid gap-4">
+                {[
+                  { title: "Outcome-led", desc: "Every engagement ties to a measurable business result." },
+                  { title: "Governed", desc: "Responsible AI isn't optional — it's built into our approach." },
+                  { title: "Delivery-first", desc: "We ship outcomes, not slide decks." },
+                ].map((item) => (
+                  <div key={item.title} className="p-5 rounded-xl bg-card border border-border">
+                    <h3 className="font-semibold mb-1">{item.title}</h3>
+                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
+      <section id="contact" className="py-24 md:py-32">
+        <div className="max-w-3xl mx-auto px-6">
+          <AnimatedSection>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary font-medium mb-2">Get in Touch</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Let's talk about your AI ambitions</h2>
+            <p className="text-muted-foreground mb-10 leading-relaxed">
+              Whether you're just starting your AI journey or need help governing what you've already built, we'd love to hear from you.
+            </p>
+          </AnimatedSection>
+
+          <AnimatedSection delay={100}>
+            <div className="flex gap-6 mb-10 flex-wrap">
+              <a href="mailto:info@kudoadvisory.com" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+                <Mail className="w-5 h-5" /> info@kudoadvisory.com
+              </a>
+              <a
+                href="https://www.linkedin.com/in/vijayjaswal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+              >
+                <Linkedin className="w-5 h-5" /> LinkedIn
+              </a>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={200}>
+          <form className="space-y-5" onSubmit={handleContactSubmit}>                
+              <div>
+                <label className="block text-sm font-medium mb-2">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Message</label>
+                <textarea
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-card border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none"
+                />
+              </div>
+            
+              <Button
+                type="submit"
+                disabled={isSending}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 disabled:opacity-60"
+              >
+                {isSending ? "Sending..." : "Send Message"}
+            </Button>
+
+            {formStatus === "success" && (
+  <p className="text-sm text-primary mt-2">Thanks — your message has been sent.</p>
+)}
+{formStatus === "error" && (
+  <p className="text-sm text-destructive mt-2">
+    Sorry — something went wrong. Please email <a className="underline" href="mailto:info@kudoadvisory.com">info@kudoadvisory.com</a>.
+  </p>
+)}
+            
+            </form>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
+        <p>© {new Date().getFullYear()} Kudo Advisory. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default Index;
