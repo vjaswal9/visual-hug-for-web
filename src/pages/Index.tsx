@@ -22,7 +22,7 @@ import outcomesBg from "@/assets/outcomes-boardroom.jpg";
 import servicesBg from "@/assets/services-collaboration.jpg";
 import heroBg from "@/assets/hero-abstract.jpg";
 import howWeWorkBg from "@/assets/how-we-work.jpg";
-import aboutBg from "@/assets/about-leader.jpg";
+import founderBg from "@/assets/vijay-presenting.jpg";
 import { useEffect, useState } from "react";
 import kudoLogo from "@/assets/kudo-logo.png";
 
@@ -478,9 +478,10 @@ const handleContactSubmit = async (e: React.FormEvent) => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                  <img src={aboutBg} alt="Advisory leadership" className="w-full h-[340px] object-cover" />
+                  <img src={founderBg} alt="Vijay Jaswal presenting" className="w-full h-[360px] object-cover object-[50%_30%]" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
                 </div>
+                <p className="text-sm text-muted-foreground mt-3">Vijay Jaswal — Founder</p>
                 <p className="text-3xl">駆動</p>
                 <p className="text-muted-foreground leading-relaxed">
                   Kudo — Japanese for <em>driving force</em>. The power that turns intent into forward motion.
